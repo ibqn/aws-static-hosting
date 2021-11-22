@@ -13,3 +13,5 @@ new AwsStaticHostingStack(app, "AwsStaticHostingStack", {
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
+
+app.synth();
