@@ -2,6 +2,8 @@ import * as cdk from "@aws-cdk/core";
 // import * as sqs from '@aws-cdk/aws-sqs';
 import { Bucket, BucketAccessControl } from "@aws-cdk/aws-s3";
 import { BucketDeployment, Source } from "@aws-cdk/aws-s3-deployment";
+import { Distribution, OriginAccessIdentity } from "@aws-cdk/aws-cloudfront";
+import { S3Origin } from "@aws-cdk/aws-cloudfront-origins";
 import * as path from "path";
 
 export class AwsStaticHostingStack extends cdk.Stack {
@@ -22,6 +24,19 @@ export class AwsStaticHostingStack extends cdk.Stack {
     new BucketDeployment(this, "BucketDeployment", {
       destinationBucket: bucket,
       sources: [Source.asset(path.resolve(process.cwd(), "dist"))],
+    });
+
+    const originAccessIdentity = new OriginAccessIdentity(
+      this,
+      "OriginAccessIdentity"
+    );
+    bucket.grantRead(originAccessIdentity);
+
+    new Distribution(this, "Distribution", {
+      defaultRootObject: "index.html",
+      defaultBehavior: {
+        origin: new S3Origin(bucket, { originAccessIdentity }),
+      },
     });
   }
 }
