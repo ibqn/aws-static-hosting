@@ -2,16 +2,15 @@
 
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
-import { AwsStaticHostingStack } from '../lib/aws-static-hosting-stack'
+import { AwsStaticHostingStage } from '../lib/aws-static-hosting-stage'
+
+const STAGE = 'stage'
+const DEFAULT_STAGE = 'dev'
 
 const app = new cdk.App()
-new AwsStaticHostingStack(app, 'AwsStaticHostingStack', {
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-  },
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
-})
+const stageName: string = app.node.tryGetContext(STAGE) || DEFAULT_STAGE
+
+new AwsStaticHostingStage(app, stageName)
 
 app.synth()

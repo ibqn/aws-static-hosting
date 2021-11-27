@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core'
 // import * as sqs from '@aws-cdk/aws-sqs'
-import { Bucket, BucketAccessControl } from '@aws-cdk/aws-s3'
+import { Bucket, BucketAccessControl, BlockPublicAccess } from '@aws-cdk/aws-s3'
 import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment'
 import { Distribution, OriginAccessIdentity } from '@aws-cdk/aws-cloudfront'
 import { S3Origin } from '@aws-cdk/aws-cloudfront-origins'
@@ -19,6 +19,7 @@ export class AwsStaticHostingStack extends cdk.Stack {
 
     const bucket = new Bucket(this, 'Bucket', {
       accessControl: BucketAccessControl.PRIVATE,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
     })
 
     new BucketDeployment(this, 'BucketDeployment', {
@@ -30,6 +31,7 @@ export class AwsStaticHostingStack extends cdk.Stack {
       this,
       'OriginAccessIdentity'
     )
+
     bucket.grantRead(originAccessIdentity)
 
     new Distribution(this, 'Distribution', {
