@@ -1,14 +1,22 @@
 # AWS static hosting with CloudFront and S3 Bucket!
 
-This is a blank project for TypeScript development with CDK.
+## Bootstraping this project
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project needs to be bootstraped, try to deploy first to find this out
 
-## Useful commands
+```sh
+cdk bootstrap aws://<account-id>/<region>
+```
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+where
+
+- `account id` is a string of digits
+- `region` can be for example: eu-central-1
+
+## Stack Deployment for multiple stages
+
+This stack can be deployed on multiple stages like for exampled `dev` or `prod`.
+
+```sh
+cdk destroy -c stage=dev */static-hosting-stack
+```
