@@ -18,5 +18,11 @@ where
 This stack can be deployed on multiple stages like for exampled `dev` or `prod`.
 
 ```sh
+cdk deploy -c stage=dev */static-hosting-stack
+```
+
+To remove stage use the following
+
+```sh
 cdk destroy -c stage=dev */static-hosting-stack
 ```
